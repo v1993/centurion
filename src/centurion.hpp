@@ -56,6 +56,7 @@
 #include "centurion/misc_events.hpp"
 #include "centurion/mouse.hpp"
 #include "centurion/mouse_events.hpp"
+#include "centurion/network.hpp"
 #include "centurion/opengl.hpp"
 #include "centurion/pixels.hpp"
 #include "centurion/power.hpp"

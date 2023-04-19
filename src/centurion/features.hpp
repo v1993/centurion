@@ -87,6 +87,12 @@
 #define CENTURION_HAS_FEATURE_CHARCONV 0
 #endif  // __cpp_lib_to_chars >= 201611L
 
+#ifdef __cpp_lib_span
+#define CENTURION_HAS_FEATURE_SPAN 1
+#else
+#define CENTURION_HAS_FEATURE_SPAN 0
+#endif  // __cpp_lib_format
+
 #endif  // __has_include
 
 #endif  // CENTURION_FEATURES_HPP_

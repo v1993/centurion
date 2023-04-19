@@ -45,6 +45,10 @@
 #include <SDL_ttf.h>
 #endif  // CENTURION_NO_SDL_TTF
 
+#ifndef CENTURION_NO_SDL_NET
+#include <SDL_net.h>
+#endif  // CENTURION_NO_SDL_NET
+
 namespace cen {
 
 /// Used to specify how the core SDL library is initialized.
@@ -151,6 +155,24 @@ class ttf final
 };
 
 #endif  // CENTURION_NO_SDL_TTF
+
+#ifndef CENTURION_NO_SDL_NET
+
+/// Used to load and subsequently unload the SDL_net library.
+class net final
+{
+ public:
+  CENTURION_NODISCARD_CTOR net()
+  {
+    if (SDLNet_Init() == -1) {
+      throw net_error{};
+    }
+  }
+
+  ~net() noexcept { SDLNet_Quit(); }
+};
+
+#endif  // CENTURION_NO_SDL_NET
 
 }  // namespace cen
 

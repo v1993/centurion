@@ -39,6 +39,10 @@
 #include <SDL_ttf.h>
 #endif  // CENTURION_NO_SDL_TTF
 
+#ifndef CENTURION_NO_SDL_NET
+#include <SDL_net.h>
+#endif  // CENTURION_NO_SDL_NET
+
 #include <chrono>       // duration
 #include <cstddef>      // size_t
 #include <exception>    // exception
@@ -219,6 +223,18 @@ class mix_error final : public exception
 };
 
 #endif  // CENTURION_NO_SDL_MIXER
+
+#ifndef CENTURION_NO_SDL_NET
+
+class net_error final : public exception
+{
+ public:
+  net_error() noexcept : exception{SDLNet_GetError()} {}
+
+  explicit net_error(const char* what) noexcept : exception{what} {}
+};
+
+#endif  // CENTURION_NO_SDL_NET
 
 /**
  * A simple indicator for the result of different operations.

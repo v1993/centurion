@@ -28,7 +28,8 @@ function(cen_include_sdl_headers target)
                              ${SDL2_INCLUDE_DIR}
                              ${SDL2_IMAGE_INCLUDE_DIRS}
                              ${SDL2_TTF_INCLUDE_DIRS}
-                             ${SDL2_MIXER_INCLUDE_DIRS})
+                             ${SDL2_MIXER_INCLUDE_DIRS}
+                             ${SDL2_NET_INCLUDE_DIRS})
 endfunction()
 
 function(cen_link_sdl_libs target)
@@ -37,7 +38,8 @@ function(cen_link_sdl_libs target)
                         ${SDL2_LIBRARY}
                         ${SDL2_IMAGE_LIBRARIES}
                         ${SDL2_TTF_LIBRARIES}
-                        ${SDL2_MIXER_LIBRARIES})
+                        ${SDL2_MIXER_LIBRARIES}
+                        ${SDL2_NET_LIBRARIES})
 endfunction()
 
 function(cen_set_basic_compiler_options target)

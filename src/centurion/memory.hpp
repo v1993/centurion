@@ -39,8 +39,13 @@
 #include <SDL_ttf.h>
 #endif  // CENTURION_NO_SDL_TTF
 
-#include <cstddef>  // size_t
-#include <memory>   // unique_ptr
+#ifndef CENTURION_NO_SDL_NET
+#include <SDL_net.h>
+#endif  // CENTURION_NO_SDL_NET
+
+#include <cstddef>      // size_t
+#include <memory>       // unique_ptr
+#include <type_traits>  // remove_pointer_t
 
 namespace cen {
 
@@ -180,6 +185,34 @@ struct deleter<TTF_Font> final
 };
 
 #endif  // CENTURION_NO_SDL_TTF
+
+#ifndef CENTURION_NO_SDL_NET
+
+template <>
+struct deleter<std::remove_pointer_t<TCPsocket>> final
+{
+  void operator()(TCPsocket sock) noexcept { SDLNet_TCP_Close(sock); }
+};
+
+template <>
+struct deleter<UDPpacket> final
+{
+  void operator()(UDPpacket* packet) noexcept { SDLNet_FreePacket(packet); }
+};
+
+template <>
+struct deleter<std::remove_pointer_t<UDPsocket>> final
+{
+  void operator()(UDPsocket sock) noexcept { SDLNet_UDP_Close(sock); }
+};
+
+template <>
+struct deleter<std::remove_pointer_t<SDLNet_SocketSet>> final
+{
+  void operator()(SDLNet_SocketSet set) noexcept { SDLNet_FreeSocketSet(set); }
+};
+
+#endif  // CENTURION_NO_SDL_NET
 
 template <typename T>
 using managed_ptr = std::unique_ptr<T, deleter<T>>;

@@ -39,6 +39,10 @@
 #include <SDL_ttf.h>
 #endif  // CENTURION_NO_SDL_TTF
 
+#ifndef CENTURION_NO_SDL_NET
+#include <SDL_net.h>
+#endif  // CENTURION_NO_SDL_NET
+
 #include <cassert>  // assert
 
 #define CENTURION_VERSION_MAJOR 7
@@ -148,6 +152,24 @@ struct version final
 }
 
 #endif  // CENTURION_NO_SDL_TTF
+
+#ifndef CENTURION_NO_SDL_NET
+
+/// Returns the compile-time version of SDL2_ttf.
+[[nodiscard]] constexpr auto sdl_net_version() noexcept -> SDL_version
+{
+  return {SDL_NET_MAJOR_VERSION, SDL_NET_MINOR_VERSION, SDL_NET_PATCHLEVEL};
+}
+
+/// Returns the version of SDL2_ttf that the program was linked against.
+[[nodiscard]] inline auto sdl_net_linked_version() noexcept -> SDL_version
+{
+  const auto* version = SDLNet_Linked_Version();
+  assert(version);
+  return *version;
+}
+
+#endif  // CENTURION_NO_SDL_NET
 
 }  // namespace cen
 
